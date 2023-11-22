@@ -1,59 +1,36 @@
-
-
 <template>
     <div class="notes">
-        <div class="card has-background-success-dark p-4 mb-5">
-            <div class="field">
-                <div class="control">
-                    <textarea v-model="newNote" ref="newNoteRef" class="textarea" placeholder="Add a new note" />
-                </div>
-            </div>
+        <AddEditNote v-model:newNote="newNote" ref="addEditNoteRef" placeholder="Add a new note">
+            <template #buttons>
+                <button @click="submitNewNote" :disabled="!newNote" class="button is-link has-background-success">
+                    Add new note
+                </button>
+            </template>
+        </AddEditNote>
 
-            <div class="field is-grouped is-grouped-right">
-                <div class="control">
-                    <button @click="submitNewNote" class="button is-link 
-                    has-background-success" :disabled="!newNote">Add new note</button>
-                </div>
-            </div>
-        </div>
-
-        <Note @deleteNote="removeNote" v-for="note in notes" :key="note.id" :note="note" />
+        <Note v-for="note in store.notes" :key="note.id" :note="note" />
 
     </div>
 </template>
 
 <script setup>
 import Note from "@/components/Notes/Note.vue";
+import AddEditNote from "../components/Notes/AddEditNote.vue";
 import { ref } from "vue";
+import { useStoreNotes } from "../stores/storeNotes";
 // Notes
 const newNote = ref("");
-const newNoteRef = ref(null);
-const notes = ref([
-    {
-        id: 1,
-        content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus aliquam, architecto id labore voluptatem alias dicta velit minus ratione esse autem unde, eveniet ducimus quis ad earum facilis quod corrupti.'
-    },
-    {
-        id: 2,
-        content: 'This is a shorter note.'
-    },
-]);
+const addEditNoteRef = ref(null);
+const store = useStoreNotes();
 
 const submitNewNote = () => {
-    let currentDate = new Date().getTime(),
-        id = currentDate.toString()
 
-    notes.value.unshift({
-        id,
-        content: newNote.value
-    });
+    store.addNote(newNote.value);
 
     newNote.value = "";
-    newNoteRef.value.focus();
+    addEditNoteRef.value.focusTextArea();
 }
 
-const removeNote = (id) => {
-    notes.value = notes.value.filter((note) => note.id !== id);
-}
+
 
 </script>
