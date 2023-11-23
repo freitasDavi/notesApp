@@ -8,7 +8,7 @@
         <div class="field">
             <div class="control">
                 <textarea :value="newNote" @input="$emit('update:newNote', $event.target.value)" class="textarea"
-                    ref="noteRef" :placeholder="placeholder" />
+                    ref="noteRef" :placeholder="placeholder" v-auto-focus />
             </div>
         </div>
 
@@ -22,6 +22,7 @@
 
 <script setup>
 import { ref } from "vue"
+import { vAutoFocus } from "@/directives/vAutoFocus"
 
 const noteRef = ref();
 

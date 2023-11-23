@@ -20,11 +20,13 @@
                 </tr>
             </tbody>
         </table>
+        <input v-auto-focus class="input" type="text" placeholder="Do you love notepad?" />
     </div>
 </template>
 
 <script setup>
 import { useStoreNotes } from '../stores/storeNotes';
+import { vAutoFocus } from "@/directives/vAutoFocus"
 
 const store = useStoreNotes();
 
