@@ -3,11 +3,11 @@ import { ref } from "vue";
 
 export const useStoreNotes = defineStore('storeNotes', () => {
     const notes = ref([{
-        id: 1,
+        id: '1',
         content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus aliquam, architecto id labore voluptatem alias dicta velit minus ratione esse autem unde, eveniet ducimus quis ad earum facilis quod corrupti.'
     },
     {
-        id: 2,
+        id: '2',
         content: 'This is a shorter note.'
     }]);
 
@@ -27,7 +27,20 @@ export const useStoreNotes = defineStore('storeNotes', () => {
         notes.value = filteredNotes;
     };
 
+    function getNoteContent (id) {
+        return notes.value.filter((note) => note.id === id)[0].content;
+    }
+
+    function updateNotes(dto) {
+        notes.value == notes.value.map((n) => {
+            if (n.id === dto.id) {
+                n.content = dto.content
+            }
+
+            return n;
+        });
+    }
     
 
-    return { notes, addNote, removeNote };
+    return { notes, addNote, removeNote, getNoteContent, updateNotes };
 });
