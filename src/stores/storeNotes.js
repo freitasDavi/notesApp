@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 export const useStoreNotes = defineStore('storeNotes', () => {
     const notes = ref([{
@@ -10,6 +10,25 @@ export const useStoreNotes = defineStore('storeNotes', () => {
         id: '2',
         content: 'This is a shorter note.'
     }]);
+
+    /** Getters */
+    function getNoteContent (id) {
+        return notes.value.filter((note) => note.id === id)[0].content;
+    }
+
+    const totalNotesCount = computed(() => {
+        return notes.value.length;
+    })
+
+    const totalCharacters = computed(() => {
+        let count = 0;
+
+        notes.value.forEach((note) => count += note.content.length);
+
+        return count;
+    })
+
+    /** Actions */
 
     const addNote = (newNote) => {
         let currentDate = new Date().getTime(),
@@ -27,10 +46,6 @@ export const useStoreNotes = defineStore('storeNotes', () => {
         notes.value = filteredNotes;
     };
 
-    function getNoteContent (id) {
-        return notes.value.filter((note) => note.id === id)[0].content;
-    }
-
     function updateNotes(dto) {
         notes.value == notes.value.map((n) => {
             if (n.id === dto.id) {
@@ -42,5 +57,5 @@ export const useStoreNotes = defineStore('storeNotes', () => {
     }
     
 
-    return { notes, addNote, removeNote, getNoteContent, updateNotes };
+    return { notes, addNote, removeNote, getNoteContent, updateNotes, totalNotesCount, totalCharacters };
 });

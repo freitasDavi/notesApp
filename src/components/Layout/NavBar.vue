@@ -20,10 +20,10 @@ import { RouterLink } from 'vue-router';
             <div id="navbarBasicExample" class="navbar-menu" :class="{ 'is-active': showMobileNav }">
                 <div class="navbar-end">
                     <div class="navbar-item">
-                        <RouterLink to="/" class="navbar-item" active-class="is-active">
+                        <RouterLink to="/" @click="showMobileNav = false" class="navbar-item" active-class="is-active">
                             Notes
                         </RouterLink>
-                        <RouterLink to="/stats" class="navbar-item">
+                        <RouterLink to="/stats" @click="showMobileNav = false" class="navbar-item">
                             Stats
                         </RouterLink>
                     </div>
